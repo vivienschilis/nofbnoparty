@@ -3,7 +3,7 @@ class CreateRequests < ActiveRecord::Migration
     create_table :requests do |t|
       t.integer :user_id
       t.integer :party_id
-      t.date :accepted_at, :default => :null
+      t.date :accepted_at
 
       t.timestamps
     end
