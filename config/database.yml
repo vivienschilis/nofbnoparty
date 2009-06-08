@@ -17,5 +17,6 @@ test:
 
 production:
   adapter: mysql
+  database: nofbnoparty
   username: vivien
   password: figata88
