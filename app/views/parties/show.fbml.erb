@@ -1,0 +1,166 @@
+<% fb_tabs do %>
+<%= fb_tab_item "My dashboard", dashboard_index_path,  :selected => false %>
+<%= fb_tab_item "New party", new_party_path, :align => :right, :selected => false %>
+<% end %>
+
+<div class="topic_bar">
+
+<div style="width:310px;float:left">
+<h1>Party : <%=h @party.title %></h1>
+<%=h @party.address %> 
+<%=h @party.zipcode %> 
+<%=h @party.city %>
+at <%=h @party.date %>
+</div>
+
+<% fb_dialog ("my_dialog", true) do %>
+	<%= fb_dialog_title("Leave the party") %>
+	<% fb_dialog_content do %>
+		<form id="my_form">
+		 Are you sur to leave the party?
+		</form>
+	<% end %>
+	<%= fb_dialog_button("button", "Yes", :href => leave_party_url(@party)) %>
+<% end %>
+
+<% if @user.id == @party.user_id %>
+<div class="topic_actions">
+<%= link_to 'Edit the party', edit_party_path(@party) %> <br/>
+<%= link_to 'Leave the party', "#" , :clicktoshowdialog =>"my_dialog" %>
+</div>
+<% else %>
+<div class="topic_actions">
+<% if  @invited  %>
+<%= link_to 'Leave the party', "#" , :clicktoshowdialog =>"my_dialog" %>
+<% end %>
+</div>
+<% end %>
+
+</div>
+<% if @invited %>
+<br>
+<div class="topic_header" style="height:15px"><h2 style="float:left">People</h2>
+	<span style="float:right">
+	<a href="#" id='invite_show' onclick="this.setStyle('display','none');
+document.getElementById('invite_hide').setStyle('display','block');
+Animation(document.getElementById('invite_users')).to('height', 'auto').from('0px').from(0).show().go();  return false;">Invite</a>
+	<a href="#" id='invite_hide' style="display:none" onclick="this.setStyle('display','none');
+document.getElementById('invite_show').setStyle('display','block');
+Animation(document.getElementById('invite_users')).to('height', '0px').blind().hide().go(); return false;">Hide invitation</a>
+	</span>
+</div>
+
+<div class="topic_bar " style="height:40px;">
+	<div style="float:left">
+<% @party.invited_users.each do |user| %>
+	<%= fb_profile_pic (user.facebook_id, :size => :square, :height => 35) %> 
+<% end %>
+	</div>
+<div class="topic_actions" style="float:right">
+</div>
+
+
+</div>
+
+
+
+<div id="invite_users" class="topic_bar "  style="display:none;height:60px;vertical-align:middle">
+<form action="<%=invite_friends_party_url(@party) %>" >
+<div style="float:left; margin-right:6px">
+<%= fb_multi_friend_input("message click") %>
+</div>
+<span style="vertical-align:middle">
+ <input type="submit" value="Invite" >
+</span>
+</form>
+</div>
+
+<br/><br/>
+<div class="menu">
+	<%= @party.content_html %>
+</div>
+
+<br/> <br/>
+
+
+<div class="topic_header"><h2>What they bring</h2></div>
+<br/>
+<% unless @bring_by_others.nil? or  @bring_by_others.size==0%>
+<% @bring_by_others.each do |something| %>
+<span class="bringed_item">
+	<%=something.quantity%>
+	<%=something.item%> 
+</span>
+  by <%= fb_name (something.user.facebook_id) %>
+	<% end %>
+<% else %>
+<br/>	Nothing	
+<% end %>
+
+
+<br/><br/>
+<div class="topic_header"><h2>What you bring</h2></div>
+<br/>
+<% unless @bring_by_me.nil? or  @bring_by_me.size==0 %>
+<% @bring_by_me.each do |something| %>
+<span class="bringed_item">
+	<%=something.quantity%> 
+	<%=something.item%>
+	<span class="bringed_item_delete">x</span>
+</span>
+	<%end%>
+<% else %>
+	<span style="font-size:24px"> Nothing, I eat exclusivly what the others bring </span>
+<% end %>
+
+<br/> <br/>
+<form fbtype="feedStory" action="<%=publish_party_url(@party) %>" >
+   <input type="submit" label="Publish on your wall" />
+</form>
+
+<br/>
+ <br/>
+
+<div class="topic_header"><h2>Bring something else ?</h2></div>
+
+<% 
+	qt=[]
+	10.times { |i|
+		qt << [i+1,i+1]
+	}
+	qt<< [20,20]
+	qt<< [30,30]
+	qt<< [100,100]
+%>
+
+<% form_for(@something) do |f| %>
+  <%= f.error_messages %>
+
+	<%= f.hidden_field :party_id, :value => @party.id %>
+  <p>
+    <%= f.label :quantity %><br />
+    <%= f.select :quantity , qt %>
+  </p>
+
+  <p>
+    <%= f.label :item %><br />
+    <%= f.text_field :item %>
+  </p>
+
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+
+<% end %>
+
+
+
+<% else %>
+<br/><br/>
+<% if @requested %>
+	Invitation request is already sent
+<% else %>
+	<%= link_to 'Send an invitation request', invitation_party_path(@party) %>
+<% end %>
+
+<% end %>

@@ -1,0 +1,28 @@
+<h1>Listing parties</h1>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>City</th>
+    <th>Address</th>
+    <th>Zipcode</th>
+    <th>Title</th>
+  </tr>
+
+<% @parties.each do |party| %>
+  <tr>
+    <td><%=h party.date %></td>
+    <td><%=h party.city %></td>
+    <td><%=h party.address %></td>
+    <td><%=h party.zipcode %></td>
+    <td><%=h party.title %></td>
+    <td><%= link_to 'Show', party %></td>
+    <td><%= link_to 'Edit', edit_party_path(party) %></td>
+    <td><%= link_to 'Destroy', party, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New party', new_party_path %>

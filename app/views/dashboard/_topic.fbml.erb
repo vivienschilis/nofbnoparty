@@ -1,0 +1,25 @@
+<div class="board_topic first">
+	<div class="topic_info">
+		<h2><%= link_to @myparty.title, @myparty %></h2> 
+		<div class="more_info">By
+			<%= fb_name (@myparty.user.facebook_id) %>,
+			<%=h @myparty.city %>
+			on <%=h @myparty.date.strftime("%a %B %d at %I:%M %p") %>,
+			<%= @myparty.invited_users.size %> people
+		</div>
+	</div>
+	
+	<div class="right_info">
+		<% if(@myparty.invited_users.size > 0) %>
+			Last invited is <%= fb_name (@myparty.invited_users.first.facebook_id) %>
+		<% else %>
+			No invited party
+		<% end %>
+		<div class="more_info">
+			<% if(@myparty.invited_users.size > 0) %>
+				<%= time_ago_in_words( @myparty.request_of(@myparty.invited_users.first).accepted_at ) %>
+			<% else %>
+				The party seems boring!!
+			<% end %>
+		<div>
+	</div>

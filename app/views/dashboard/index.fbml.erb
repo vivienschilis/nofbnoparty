@@ -1,0 +1,120 @@
+<h1>Parties owned by <%= fb_name (@user.facebook_id)%></h1> <br>
+<table>
+  <tr>
+    <th>Date</th>
+    <th>City</th>
+    <th>Address</th>
+    <th>Zipcode</th>
+    <th>Title</th>
+  </tr>
+
+<% @user.owned_parties.each do |party| %>
+  <tr>
+    <td><%=h party.date %></td>
+    <td><%=h party.city %></td>
+    <td><%=h party.address %></td>
+    <td><%=h party.zipcode %></td>
+    <td><%=h party.title %></td>
+    <td><%= link_to 'Show', party %></td>
+  </tr>
+<% end %>
+</table>
+
+
+<br />
+
+<h1>Parties where <%= fb_name (@user.facebook_id)%> have sent an invitation request</h1> <br>
+
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>City</th>
+    <th>Address</th>
+    <th>Zipcode</th>
+    <th>Title</th>
+  </tr>
+
+<% @user.pending_parties.each do |party| %>
+  <tr>
+    <td><%=h party.date %></td>
+    <td><%=h party.city %></td>
+    <td><%=h party.address %></td>
+    <td><%=h party.zipcode %></td>
+    <td><%=h party.title %></td>
+    <td><%= link_to 'Show', party %></td>
+  </tr>
+<% end %>
+</table>
+
+<br/>
+
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>City</th>
+    <th>Address</th>
+    <th>Zipcode</th>
+    <th>Title</th>
+  </tr>
+
+
+<h1>Parties where <%= fb_name (@user.facebook_id)%> are invited</h1> <br>
+
+
+<% @user.accepted_parties.each do |party| %>
+  <tr>
+    <td><%=h party.date %></td>
+    <td><%=h party.city %></td>
+    <td><%=h party.address %></td>
+    <td><%=h party.zipcode %></td>
+    <td><%=h party.title %></td>
+    <td><%= link_to 'Show', party %></td>
+  </tr>
+<% end %>
+</table>
+
+<br/>
+
+<h1>Pending invitation requests of your parties</h1> <br>
+<table>
+<% @user.parties.each do |party| %>
+	<% party.waiting_requests.each do |request| %>
+	<tr>
+  	<td>
+		<%= fb_name ( request.user.facebook_id ) %> request an invitation to <%= party.title %>
+		<%= link_to 'Accept', accept_request_path(request) %>
+		</td>
+	</tr>
+	<% end %>
+</table>
+<% end %>
+
+
+<br/>
+<h1> Other parties </h1> <br>
+<table>
+  <tr>
+    <th>Date</th>
+    <th>City</th>
+    <th>Address</th>
+    <th>Zipcode</th>
+    <th>Title</th>
+  </tr>
+
+<% unless @other_parties.nil? %>
+<% @other_parties.each do |party| %>
+  <tr>
+    <td><%=h party.date %></td>
+    <td><%=h party.city %></td>
+    <td><%=h party.address %></td>
+    <td><%=h party.zipcode %></td>
+    <td><%=h party.title %></td>
+		<td><%= fb_name ( party.user.facebook_id ) %></td>
+		<td><%= link_to 'Show', party %></td>
+
+  </tr>
+<% end %>
+<% end %>
+</table>

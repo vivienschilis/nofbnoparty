@@ -1,0 +1,23 @@
+<% fb_tabs do %>
+<%= fb_tab_item "Your parties (#{@user.owned_parties.size})", my_parties_dashboard_url, :selected => false %>
+<%= fb_tab_item "Invitation request (#{@waiting_requests_number})", invitation_requests_dashboard_url, :selected => false %>
+<%= fb_tab_item "Invited parties (#{@user.accepted_parties.size})", invited_parties_dashboard_url, :selected => true %>
+<%= fb_tab_item "Other parties (#{@other_parties.size})", other_parties_dashboard_url, :selected => false %>
+<%= fb_tab_item "New party", new_party_path, :align => :right, :selected => false %>
+
+<% end %>
+<br / > <br/ > <br/ >
+<% unless @user.accepted_parties.nil? or @user.accepted_parties.empty? %>
+
+Displaying all the parties you are invited.
+
+<% @user.accepted_parties.each do |party| %>
+
+<% @myparty=party %>
+<%= render :partial => "topic.fbml.erb" %>
+		
+<% end %>
+
+<% else %>
+Nothing
+<% end %>

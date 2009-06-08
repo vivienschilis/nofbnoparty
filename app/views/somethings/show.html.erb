@@ -1,0 +1,23 @@
+<p>
+  <b>User:</b>
+  <%=h @something.user_id %>
+</p>
+
+<p>
+  <b>Party:</b>
+  <%=h @something.party_id %>
+</p>
+
+<p>
+  <b>Quantity:</b>
+  <%=h @something.quantity %>
+</p>
+
+<p>
+  <b>Comment:</b>
+  <%=h @something.comment %>
+</p>
+
+
+<%= link_to 'Edit', edit_something_path(@something) %> |
+<%= link_to 'Back', somethings_path %>

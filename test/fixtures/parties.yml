@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  date: 2009-04-22
+  city: MyString
+  address: MyString
+  zipcode: 1
+  title: MyString
+
+two:
+  date: 2009-04-22
+  city: MyString
+  address: MyString
+  zipcode: 1
+  title: MyString

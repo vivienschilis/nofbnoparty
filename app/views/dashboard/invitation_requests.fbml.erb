@@ -1,0 +1,54 @@
+<% fb_tabs do %>
+<%= fb_tab_item "Your parties (#{@user.owned_parties.size})", my_parties_dashboard_url, :selected => false %>
+<%= fb_tab_item "Invitation request (#{@waiting_requests_number})", invitation_requests_dashboard_url, :selected => true %>
+<%= fb_tab_item "Invited parties (#{@user.accepted_parties.size})", invited_parties_dashboard_url, :selected => false %>
+<%= fb_tab_item "Other parties (#{@other_parties.size})", other_parties_dashboard_url, :selected => false %>
+<%= fb_tab_item "New party", new_party_path, :align => :right, :selected => false %>
+
+
+<% end %>
+<br / > <br/ > <br/ >
+
+<% if @waiting_requests_number > 0 %>
+
+<table>
+<% @user.parties.each do |party| %>
+	<% party.waiting_requests.each do |request| %>
+	<tr>
+  	<td>
+		<%= fb_name ( request.user.facebook_id ) %> request an invitation to come to the party "<%= party.title %>"
+		<%= link_to 'Accept', accept_request_path(request) %>
+		</td>
+	</tr>
+	<% end %>
+</table>
+
+<%end%>
+<% else %>
+Nothing
+<% end %>
+
+
+
+<table>
+<% @user.pending_parties.each do |party| %>
+	<tr>
+  	<td>
+		you have sent an invitation request to come to the party "<%= party.title %>"
+		</td>
+	</tr>
+<% end %>
+</table>
+
+
+
+<table>
+<% @user.requested_parties.each do |request| %>
+	<tr>
+  	<td>
+			<%= fb_name ( request.sender.facebook_id ) %> sent you an request invitation to come to the party 
+			"<%= request.party.title %>"
+			<%= link_to 'Accept', accept_request_path(request) %>		</td>
+	</tr>
+<% end %>
+</table>

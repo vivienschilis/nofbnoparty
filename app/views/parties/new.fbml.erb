@@ -1,0 +1,48 @@
+<% fb_tabs do %>
+<%= fb_tab_item "New party", new_party_path, :selected => false %>
+<% end %>
+<br/>
+
+<% form_for(@party) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <%= f.label :address %><br />
+    <%= f.text_field :address %>
+  </p>
+  <p>
+    <%= f.label :zipcode %><br />
+    <%= f.text_field :zipcode %>
+  </p>
+
+  <p>
+    <%= f.label :city %><br />
+    <%= f.text_field :city %>
+  </p>
+
+
+  <p>
+    <%= f.label :date %><br />
+    <%= f.datetime_select :date %>
+  </p>
+
+
+  <p>
+    <%= f.label :content %><br />
+    <%= f.text_area(:content, :cols => 80, :rows => 25) %>
+  </p>
+
+
+
+
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', parties_path %>
